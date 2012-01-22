@@ -12,12 +12,12 @@ if ($response)
 else
 {
   echo("Did not get lock\n");
+  exit(0);
 }
 
 sleep(10);
 
 echo("Offering to unlock\n");
 $client->unlock('test');
-
 
 sleep(10);
