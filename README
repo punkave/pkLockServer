@@ -1,0 +1,54 @@
+"What is pkLockServer?"
+
+pkLockServer is a distributed lock server for PHP applications. pkLockServer is
+intended to replace the use of flock() with a mechanism that is equally able
+to detect clients that have died, yet also suitable for use where a filesystem
+that supports flock() is not shared by all servers concerned.
+
+"Why not use [x] instead?"
+
+pkLockServer relies on persistent socket connections. The use of persistent
+connections allows us to detect dead clients rather than using a timeout to
+break locks as is commonly done with Redis, memcached, etc. We like to use
+locks for mission-critical stuff and long-lived stuff. In both cases a 
+false positive is infinitely worse than a false negative. So timeouts just
+aren't a great choice for us. YMMV.
+
+"How well does it work?"
+
+pkLockServer is implemented as an efficient single-threaded server using 
+select(). As such, the performance should be about as good as is possible in a 
+pure PHP implementation. But in our case, we need locks in relatively few cases,
+but when we need 'em we really need 'em to work. So performance is not the
+biggest constraint.
+
+"How do I test it? And how do I use it?"
+
+pkLockServer's pkLockClient and pkLockServer classes are demonstrated 
+(and their usage is documented) by the testClient and testServer programs. 
+
+Note that, out of the box, testServer ignores connections that are not from 
+127.0.0.1. This is not a limitation of the pkLockServer class, you can limit 
+to any suitable list of IP addresses. You want a limit to avoid DOS attacks. 
+It's a pretty good idea to block the port at your firewall for outsiders too.
+
+"What are those pkMessageServer and pkMessageClient classes about?"
+
+These are pretty cool actually. pkMessageServer and pkMessageClient
+implement message-based communication over TCP sockets, so you can conveniently
+send and receive complete messages - anything that JSON can encode and
+decode can be sent as a message. 
+
+pkMessageServer looks for a 'command' key in the message. If the command
+is 'lock', and a method called 'commandLock' exists, it is invoked
+(much like writing actions in Symfony). 
+
+These classes also support RPC (Remote Procedure Calls). 
+pkMessageClient::rpc sends a message and waits for a response. Handy when
+you need to know if you got that lock or not before proceeding.
+
+There are phpdoc comments explaining how to leverage all this if you get
+excited about writing your own subclasses to implement other applications
+that call for persistent socket connections between PHP processes. It's
+pretty neat what you can accomplish when you don't have HTTP tied
+around your neck.
