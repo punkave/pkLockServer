@@ -52,3 +52,12 @@ excited about writing your own subclasses to implement other applications
 that call for persistent socket connections between PHP processes. It's
 pretty neat what you can accomplish when you don't have HTTP tied
 around your neck.
+
+"What are the license terms?"
+
+Copyright 2012, P'unk Avenue LLC. Released under the MIT License.
+
+"How stable is this?"
+
+This is an early and exciting release! The test programs sure work though.
+Put it through its paces for yourself and see. 
