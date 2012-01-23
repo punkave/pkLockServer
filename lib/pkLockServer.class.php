@@ -1,7 +1,7 @@
 <?php
 
-require dirname(__FILE__) . '/pkMessageConnection.php';
-require dirname(__FILE__) . '/pkMessageServer.php';
+require dirname(__FILE__) . '/pkMessageConnection.class.php';
+require dirname(__FILE__) . '/pkMessageServer.class.php';
 
 class pkLockServer extends pkMessageServer
 {
