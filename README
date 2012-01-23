@@ -24,13 +24,26 @@ biggest constraint.
 
 "How do I test it? And how do I use it?"
 
-pkLockServer's pkLockClient and pkLockServer classes are demonstrated 
-(and their usage is documented) by the testClient and testServer programs. 
+pkLockServer's pkLockClient and pkLockServer classes have good phpdoc comments,
+and they are demonstrated by the server.php and testClient.php programs in the 
+bin/ folder.
 
-Note that, out of the box, testServer ignores connections that are not from 
-127.0.0.1. This is not a limitation of the pkLockServer class, you can limit 
-to any suitable list of IP addresses. You want a limit to avoid DOS attacks. 
-It's a pretty good idea to block the port at your firewall for outsiders too.
+Configure server.php by copying config/settings-example.php to config/settings.php
+and reviewing the settings there. Then run the programs like this:
+
+php server.php
+[Leave that running; in another terminal window:]
+php testClient.php
+
+Fire up several copies of testClient.php to see how each holds the lock
+for 10 seconds before yielding to the next waiting client, then lingers 
+10 additional seconds before actually exiting. 
+
+Note that, out of the box, server.php ignores connections that are not from 
+127.0.0.1 (the same machine). You can edit your copy of settings.php to
+limit connections to any suitable list of IP addresses. You want a limit to 
+avoid DOS attacks. It's a pretty good idea to block the port at your firewall 
+for outsiders too.
 
 "What are those pkMessageServer and pkMessageClient classes about?"
 
@@ -52,6 +65,11 @@ excited about writing your own subclasses to implement other applications
 that call for persistent socket connections between PHP processes. It's
 pretty neat what you can accomplish when you don't have HTTP tied
 around your neck.
+
+"How do I set this up as a Symfony plugin?"
+
+Check it out via svn:externals to plugins/pkLockServerPlugin. The lib folder
+will automatically be picked up by the Symfony autoloader.
 
 "What are the license terms?"
 

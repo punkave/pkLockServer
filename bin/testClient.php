@@ -1,6 +1,6 @@
 <?php
 
-require dirname(__FILE__) . '/pkLockClient.php';
+require dirname(__FILE__) . '/../lib/pkLockClient.php';
 
 $options = array('host' => 'localhost', 'port' => 20934);
 $client = new pkLockClient($options);
